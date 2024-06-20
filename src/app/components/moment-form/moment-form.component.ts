@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validator, Validators } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-moment-form',
@@ -9,11 +12,34 @@ export class MomentFormComponent implements OnInit {
 
   @Input() btnText!: string
 
+  momentForm!: FormGroup;
+
   constructor(){}
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
+    this.momentForm = new FormGroup({
+      id: new FormControl(''),
+      title: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required]),
+      image: new FormControl(''),
+    });
   }
+
+  get title(){
+    return this.momentForm.get('title')!;
+  }
+
+  get description(){
+    return this.momentForm.get('description')!;
+  }
+
+  submit() {
+   if(this.momentForm.invalid){
+    return;
+   }
+
+    console.log("Enviou formulário")
+  }
+
+
 }
